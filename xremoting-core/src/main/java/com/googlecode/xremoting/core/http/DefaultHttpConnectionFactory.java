@@ -5,6 +5,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * {@link HttpConnectionFactory} implementation which uses URL#openConnection().
+ * 
+ * @author Roman Puchkovskiy
+ */
 public class DefaultHttpConnectionFactory implements HttpConnectionFactory {
 	
 	public HttpURLConnection openConnection(String url) throws MalformedURLException, IOException {

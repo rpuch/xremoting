@@ -20,6 +20,12 @@ import com.googlecode.xremoting.core.invoked.ProxyInvokingHelper;
 import com.googlecode.xremoting.core.spi.Serializer;
 import com.googlecode.xremoting.core.xstream.XStreamSerializer;
 
+/**
+ * Base for a servlet which wishes to expose a service using XRemoting to the
+ * world via HTTP.
+ * 
+ * @author Roman Puchkovskiy
+ */
 public abstract class XRemotingServlet extends HttpServlet {
 	private static final long serialVersionUID = 3625935027430412706L;
 	

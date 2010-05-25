@@ -2,6 +2,11 @@ package com.googlecode.xremoting.core.message;
 
 import java.io.Serializable;
 
+/**
+ * Value object for invocation.
+ * 
+ * @author Roman Puchkovskiy
+ */
 public class Invocation implements Serializable {
 	private static final long serialVersionUID = -4475087657362943906L;
 	

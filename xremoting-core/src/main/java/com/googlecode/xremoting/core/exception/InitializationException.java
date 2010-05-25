@@ -1,5 +1,10 @@
 package com.googlecode.xremoting.core.exception;
 
+/**
+ * Thrown if a proxy factory initialization fails.
+ * 
+ * @author Roman Puchkovskiy
+ */
 public class InitializationException extends XRemotingException {
 	private static final long serialVersionUID = -1674018736647004543L;
 
