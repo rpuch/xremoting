@@ -11,6 +11,12 @@ import org.apache.commons.httpclient.methods.PostMethod;
 
 import com.googlecode.xremoting.core.spi.Request;
 
+/**
+ * Implementation of {@link Request} for commons-httpclient.
+ * 
+ * @author Roman Puchkovskiy
+ * @see CommonsHttpClientRequester
+ */
 public class CommonsHttpClientRequest implements Request {
 
 	private HttpClient httpClient;

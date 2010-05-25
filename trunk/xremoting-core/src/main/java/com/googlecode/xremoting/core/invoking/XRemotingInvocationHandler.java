@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
+import com.googlecode.xremoting.core.XRemotingProxyFactory;
 import com.googlecode.xremoting.core.exception.InvokingSideInvocationException;
 import com.googlecode.xremoting.core.message.Invocation;
 import com.googlecode.xremoting.core.message.Result;
@@ -15,6 +16,13 @@ import com.googlecode.xremoting.core.spi.Requester;
 import com.googlecode.xremoting.core.spi.SerializationException;
 import com.googlecode.xremoting.core.spi.Serializer;
 
+/**
+ * {@link InvocationHandler} for XRemoting. Used by
+ * {@link XRemotingProxyFactory} on client side.
+ * 
+ * @author Roman Puchkovskiy
+ * @see XRemotingProxyFactory
+ */
 public class XRemotingInvocationHandler implements InvocationHandler {
 	
 	private Serializer serializer;

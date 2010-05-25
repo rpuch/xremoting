@@ -7,6 +7,12 @@ import java.net.HttpURLConnection;
 
 import com.googlecode.xremoting.core.spi.Request;
 
+/**
+ * {@link Request} implementation for HTTP using {@link HttpURLConnection}.
+ * 
+ * @author Roman Puchkovskiy
+ * @see HttpRequester
+ */
 public class HttpRequest implements Request {
 	
 	private HttpURLConnection connection;

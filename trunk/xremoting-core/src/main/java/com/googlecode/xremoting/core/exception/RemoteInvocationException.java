@@ -1,5 +1,10 @@
 package com.googlecode.xremoting.core.exception;
 
+/**
+ * Any problem which occurred during a remote invocation.
+ * 
+ * @author Roman Puchkovskiy
+ */
 public class RemoteInvocationException extends XRemotingException {
 	private static final long serialVersionUID = -5342939014996411402L;
 

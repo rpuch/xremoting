@@ -18,6 +18,17 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.BaseException;
 import com.thoughtworks.xstream.io.StreamException;
 
+/**
+ * <p>
+ * {@link Serializer} which uses XStream as a serialization engine. So,
+ * basically, data is converted to XML during the serialization.
+ * </p>
+ * <p>
+ * This is the default XRemoting serializer.
+ * </p>
+ * 
+ * @author Roman Puchkovskiy
+ */
 public class XStreamSerializer implements Serializer {
 	
 	protected XStream xstream;

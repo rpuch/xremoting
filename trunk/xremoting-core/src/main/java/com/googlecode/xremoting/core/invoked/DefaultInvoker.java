@@ -6,6 +6,12 @@ import java.lang.reflect.Method;
 import com.googlecode.xremoting.core.exception.InvokedSideInvocationException;
 import com.googlecode.xremoting.core.message.Invocation;
 
+/**
+ * Default {@link Invoker} implementation. Only allows to invoke methods which
+ * are defined by interfaces specified in the {@link InvocationRestriction}.
+ * 
+ * @author Roman Puchkovskiy
+ */
 public class DefaultInvoker implements Invoker {
 	
 	public Object invoke(Object target, Invocation invocation,

@@ -11,6 +11,11 @@ import com.googlecode.xremoting.core.message.Thrown;
 import com.googlecode.xremoting.core.spi.SerializationException;
 import com.googlecode.xremoting.core.spi.Serializer;
 
+/**
+ * Helper class for invoking on server side.
+ * 
+ * @author Roman Puchkovskiy
+ */
 public class ProxyInvokingHelper {
 	public void invoke(Object target, InputStream is, OutputStream os,
 			Serializer serializer, Invoker invoker,
