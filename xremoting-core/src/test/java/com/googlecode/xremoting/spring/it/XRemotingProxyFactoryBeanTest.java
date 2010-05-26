@@ -1,4 +1,4 @@
-package com.googlecode.xremoting.core.it;
+package com.googlecode.xremoting.spring.it;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -6,13 +6,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.servlet.Context;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.remoting.RemoteAccessException;
 
-import com.googlecode.xremoting.core.XRemotingProxyFactory;
-import com.googlecode.xremoting.core.exception.InvokedSideInvocationException;
-import com.googlecode.xremoting.core.http.DefaultHttpConnectionFactory;
-import com.googlecode.xremoting.core.http.HttpConnectionFactory;
-import com.googlecode.xremoting.core.http.HttpRequester;
-import com.googlecode.xremoting.core.spi.Requester;
 import com.googlecode.xremoting.core.test.A;
 import com.googlecode.xremoting.core.test.ABImpl;
 import com.googlecode.xremoting.core.test.B;
@@ -20,9 +17,9 @@ import com.googlecode.xremoting.core.test.CoolService;
 import com.googlecode.xremoting.core.test.CoolServiceInterface;
 import com.googlecode.xremoting.core.test.QAUtils;
 
-public class XRemotingServletTest {
-	
+public class XRemotingProxyFactoryBeanTest {
 	private Server server;
+	private ApplicationContext applicationContext;
 	
 	private CoolServiceInterface coolServiceImpl = new CoolService();
 	private ABImpl abImpl = new ABImpl();
@@ -37,56 +34,50 @@ public class XRemotingServletTest {
 		QAUtils.addServiceServlet(root, abImpl, A.class.getName() + "," + B.class.getName(), "/ab");
 
 		server.start();
+		
+		applicationContext = new ClassPathXmlApplicationContext("classpath:proxy-factory-test-context.xml");
 	}
-
+	
 	@After
 	public void tearDown() throws Exception {
 		if (server != null) {
 			server.stop();
 		}
+		if (applicationContext != null) {
+			applicationContext = null;
+		}
 	}
 
 	@Test
 	public void testInvoke() throws Exception {
-		XRemotingProxyFactory factory = createProxyFactory("/cool-service");
-		CoolServiceInterface coolService = (CoolServiceInterface) factory.create(CoolServiceInterface.class);
+		CoolServiceInterface coolService = (CoolServiceInterface) applicationContext.getBean("coolService");
 		String result = coolService.doCoolStuff("abc", 9, -13, new Class<?>[]{CoolService.class, String.class});
 		Assert.assertEquals("abc9-13CoolService", result);
 	}
 	
 	@Test
 	public void testInvokeOnMultipleInterfacesViaCorrectInterface() throws Exception {
-		XRemotingProxyFactory factory = createProxyFactory("/a");
-		A a = (A) factory.create(A.class);
+		A a = (A) applicationContext.getBean("a");
 		a.a();
 	}
 	
 	@Test
 	public void testInvokeOnMultipleInterfacesViaWrongInterface() throws Exception {
-		XRemotingProxyFactory factory = createProxyFactory("/a");
-		B b = (B) factory.create(B.class);
+		B b = (B) applicationContext.getBean("b");
 		try {
 			b.b();
 			Assert.fail();
-		} catch (InvokedSideInvocationException e) {
+		} catch (RemoteAccessException e) {
 			// expected
 		}
 	}
 	
 	@Test
 	public void testInvokeOnMultipleInterfacesViaBothInterfaces() throws Exception {
-		XRemotingProxyFactory factory = createProxyFactory("/ab");
-		Object proxy = factory.create(new Class<?>[]{A.class, B.class});
-		A a = (A) proxy;
-		B b = (B) proxy;
+		A a = (A) applicationContext.getBean("ab_a");
+		B b = (B) applicationContext.getBean("ab_b");
 		a.a();
 		b.b();
 	}
 
-	private XRemotingProxyFactory createProxyFactory(String uri) {
-		HttpConnectionFactory httpConnectionFactory = new DefaultHttpConnectionFactory();
-		Requester requester = new HttpRequester(httpConnectionFactory, QAUtils.buildUrl(uri));
-		XRemotingProxyFactory factory = new XRemotingProxyFactory(requester);
-		return factory;
-	}
 }
