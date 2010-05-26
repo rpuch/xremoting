@@ -18,7 +18,7 @@ import org.mortbay.jetty.Server;
 import org.mortbay.jetty.servlet.Context;
 import org.mortbay.jetty.servlet.ServletHolder;
 
-import com.googlecode.xremoting.core.test.TestUtils;
+import com.googlecode.xremoting.core.test.QAUtils;
 
 public class HttpClientBuilderTest {
 	
@@ -26,8 +26,8 @@ public class HttpClientBuilderTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		server = TestUtils.createJettyServer();
-		Context root = TestUtils.createContext(server);
+		server = QAUtils.createJettyServer();
+		Context root = QAUtils.createContext(server);
 		root.addServlet(new ServletHolder(new HttpServlet() {
 			private static final long serialVersionUID = -303205245596407931L;
 
@@ -63,7 +63,7 @@ public class HttpClientBuilderTest {
 		httpClient = HttpClientBuilder.create().basicAuth("user", "password").build();
 		method = null;
 		try {
-			method = new GetMethod(TestUtils.buildUrl("/basic"));
+			method = new GetMethod(QAUtils.buildUrl("/basic"));
 			httpClient.executeMethod(method);
 			String resp = method.getResponseBodyAsString();
 			Assert.assertEquals("ok", resp);
@@ -76,7 +76,7 @@ public class HttpClientBuilderTest {
 		httpClient = HttpClientBuilder.create().build();
 		method = null;
 		try {
-			method = new GetMethod(TestUtils.buildUrl("/basic"));
+			method = new GetMethod(QAUtils.buildUrl("/basic"));
 			httpClient.executeMethod(method);
 			int code = method.getStatusCode();
 			Assert.assertEquals(403, code);

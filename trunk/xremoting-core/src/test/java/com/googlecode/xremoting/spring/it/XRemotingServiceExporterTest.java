@@ -17,7 +17,7 @@ import com.googlecode.xremoting.core.http.HttpConnectionFactory;
 import com.googlecode.xremoting.core.http.HttpRequester;
 import com.googlecode.xremoting.core.spi.Requester;
 import com.googlecode.xremoting.core.test.CoolServiceInterface;
-import com.googlecode.xremoting.core.test.TestUtils;
+import com.googlecode.xremoting.core.test.QAUtils;
 
 public class XRemotingServiceExporterTest {
 	
@@ -26,8 +26,8 @@ public class XRemotingServiceExporterTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		server = TestUtils.createJettyServer();
-		Context root = TestUtils.createContext(server);
+		server = QAUtils.createJettyServer();
+		Context root = QAUtils.createContext(server);
 		
 		XmlWebApplicationContext wac = new XmlWebApplicationContext();
 		wac.setServletContext(root.getServletContext());
@@ -43,7 +43,7 @@ public class XRemotingServiceExporterTest {
 		server.start();
 
 		HttpConnectionFactory httpConnectionFactory = new DefaultHttpConnectionFactory();
-		Requester requester = new HttpRequester(httpConnectionFactory, TestUtils.buildUrl("/spring-exporter"));
+		Requester requester = new HttpRequester(httpConnectionFactory, QAUtils.buildUrl("/spring-exporter"));
 		XRemotingProxyFactory factory = new XRemotingProxyFactory(requester);
 		coolService = (CoolServiceInterface) factory.create(CoolServiceInterface.class);
 	}

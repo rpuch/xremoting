@@ -9,19 +9,19 @@ import org.junit.Test;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.servlet.Context;
 
-import com.googlecode.xremoting.core.test.TestUtils;
+import com.googlecode.xremoting.core.test.QAUtils;
 
 public class DefaultHttpConnectionFactoryTest {
 	
 	@Test
 	public void test() throws Exception {
-		Server server = TestUtils.createJettyServer();
-		Context root = TestUtils.createContext(server);
-		TestUtils.addHelloServlet(root);
+		Server server = QAUtils.createJettyServer();
+		Context root = QAUtils.createContext(server);
+		QAUtils.addHelloServlet(root);
 		try {
 			server.start();
 			DefaultHttpConnectionFactory factory = new DefaultHttpConnectionFactory();
-			HttpURLConnection connection = factory.openConnection(TestUtils.buildUrl("/test-servlet"));
+			HttpURLConnection connection = factory.openConnection(QAUtils.buildUrl("/test-servlet"));
 			connection.getOutputStream().write("Hello server!".getBytes("utf-8"));
 			String line = new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine();
 			connection.disconnect();

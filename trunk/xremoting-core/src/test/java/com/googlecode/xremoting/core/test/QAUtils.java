@@ -13,7 +13,9 @@ import org.mortbay.jetty.Server;
 import org.mortbay.jetty.servlet.Context;
 import org.mortbay.jetty.servlet.ServletHolder;
 
-public class TestUtils {
+import com.googlecode.xremoting.core.servlet.XRemotingServlet;
+
+public class QAUtils {
 	
 	private static final int EMBEDDED_SERVER_PORT = 8867;
 	
@@ -45,5 +47,20 @@ public class TestUtils {
 			}
 			
 		}), "/test-servlet");
+	}
+	
+	public static void addServiceServlet(Context root, final Object target,
+			String exposedInterfaces, String uri) {
+		XRemotingServlet servlet = new XRemotingServlet() {
+			private static final long serialVersionUID = 4705072705335841313L;
+
+			@Override
+			protected Object getTarget() {
+				return target;
+			}
+		};
+		ServletHolder servletHolder = new ServletHolder(servlet);
+		servletHolder.setInitParameter("exposedInterfaces", exposedInterfaces);
+		root.addServlet(servletHolder, uri);
 	}
 }

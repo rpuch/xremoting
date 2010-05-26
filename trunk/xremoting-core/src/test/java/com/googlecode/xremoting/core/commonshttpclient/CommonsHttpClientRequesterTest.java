@@ -12,19 +12,19 @@ import org.mortbay.jetty.servlet.Context;
 
 import com.googlecode.xremoting.core.spi.Request;
 import com.googlecode.xremoting.core.spi.Requester;
-import com.googlecode.xremoting.core.test.TestUtils;
+import com.googlecode.xremoting.core.test.QAUtils;
 
 public class CommonsHttpClientRequesterTest {
 	
 	@Test
 	public void test() throws Exception {
-		Server server = TestUtils.createJettyServer();
-		Context root = TestUtils.createContext(server);
-		TestUtils.addHelloServlet(root);
+		Server server = QAUtils.createJettyServer();
+		Context root = QAUtils.createContext(server);
+		QAUtils.addHelloServlet(root);
 		try {
 			server.start();
 			
-			Requester requester = new CommonsHttpClientRequester(new HttpClient(), TestUtils.buildUrl("/test-servlet"));
+			Requester requester = new CommonsHttpClientRequester(new HttpClient(), QAUtils.buildUrl("/test-servlet"));
 			Request request = requester.createRequest();
 			request.getOutputStream().write("Hello server!".getBytes("utf-8"));
 			request.commitRequest();

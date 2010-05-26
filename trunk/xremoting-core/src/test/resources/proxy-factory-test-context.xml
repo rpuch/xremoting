@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<bean id="httpClient" class="org.apache.commons.httpclient.HttpClient"/>
+
+	<bean id="coolService" class="com.googlecode.xremoting.spring.XRemotingProxyFactoryBean">
+		<property name="serviceUrl" value="http://localhost:8867/cool-service"/>
+		<property name="serviceInterface" value="com.googlecode.xremoting.core.test.CoolServiceInterface"/>
+	</bean>	
+	
+	<bean id="a" class="com.googlecode.xremoting.spring.XRemotingProxyFactoryBean">
+		<property name="serviceUrl" value="http://localhost:8867/a"/>
+		<property name="serviceInterface" value="com.googlecode.xremoting.core.test.A"/>
+		<property name="username" value="username"/>
+		<property name="password" value="password"/>
+	</bean>
+	
+	<bean id="b" class="com.googlecode.xremoting.spring.XRemotingProxyFactoryBean">
+		<property name="serviceUrl" value="http://localhost:8867/a"/>
+		<property name="serviceInterface" value="com.googlecode.xremoting.core.test.B"/>
+	</bean>
+	
+	<bean id="ab_a" class="com.googlecode.xremoting.spring.XRemotingProxyFactoryBean">
+		<property name="serviceUrl" value="http://localhost:8867/ab"/>
+		<property name="serviceInterface" value="com.googlecode.xremoting.core.test.A"/>
+	</bean>
+	
+	<bean id="ab_b" class="com.googlecode.xremoting.spring.XRemotingProxyFactoryBean">
+		<property name="serviceUrl" value="http://localhost:8867/ab"/>
+		<property name="serviceInterface" value="com.googlecode.xremoting.core.test.B"/>
+		<property name="httpClient" ref="httpClient"/>
+	</bean>
+
+</beans>
