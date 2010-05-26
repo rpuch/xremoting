@@ -20,6 +20,7 @@ import com.googlecode.xremoting.core.test.ABImpl;
 import com.googlecode.xremoting.core.test.B;
 import com.googlecode.xremoting.core.test.CoolService;
 import com.googlecode.xremoting.core.test.CoolServiceInterface;
+import com.googlecode.xremoting.core.test.TestUtils;
 
 public class XRemotingServletTest {
 	
@@ -32,45 +33,29 @@ public class XRemotingServletTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		server = new Server(EMBEDDED_SERVER_PORT);
-		Context root = new Context(server, "/" ,Context.SESSIONS);
-		XRemotingServlet coolServiceServlet = new XRemotingServlet() {
-			private static final long serialVersionUID = 4705072705335841313L;
-
-			@Override
-			protected Object getTarget() {
-				return coolServiceImpl;
-			}
-		};
-		ServletHolder coolServiceServletHolder = new ServletHolder(coolServiceServlet);
-		coolServiceServletHolder.setInitParameter("exposedInterfaces", CoolServiceInterface.class.getName());
-		root.addServlet(coolServiceServletHolder, "/cool-service");
+		server = TestUtils.createJettyServer();
+		Context root = TestUtils.createContext(server);
 		
-		XRemotingServlet aServlet = new XRemotingServlet() {
-			private static final long serialVersionUID = 4705072705335841313L;
+		addServiceServlet(root, coolServiceImpl, CoolServiceInterface.class.getName(), "/cool-service");
+		addServiceServlet(root, abImpl, A.class.getName(), "/a");
+		addServiceServlet(root, abImpl, A.class.getName() + "," + B.class.getName(), "/ab");
 
-			@Override
-			protected Object getTarget() {
-				return abImpl;
-			}
-		};
-		ServletHolder aServletHolder = new ServletHolder(aServlet);
-		aServletHolder.setInitParameter("exposedInterfaces", A.class.getName());
-		root.addServlet(aServletHolder, "/a");
-		
-		XRemotingServlet abServlet = new XRemotingServlet() {
-			private static final long serialVersionUID = 4705072705335841313L;
-
-			@Override
-			protected Object getTarget() {
-				return abImpl;
-			}
-		};
-		ServletHolder abServletHolder = new ServletHolder(abServlet);
-		abServletHolder.setInitParameter("exposedInterfaces", A.class.getName() + "," + B.class.getName());
-		root.addServlet(abServletHolder, "/ab");
-		
 		server.start();
+	}
+
+	private void addServiceServlet(Context root, final Object target,
+			String exposedInterfaces, String uri) {
+		XRemotingServlet servlet = new XRemotingServlet() {
+			private static final long serialVersionUID = 4705072705335841313L;
+
+			@Override
+			protected Object getTarget() {
+				return target;
+			}
+		};
+		ServletHolder servletHolder = new ServletHolder(servlet);
+		servletHolder.setInitParameter("exposedInterfaces", exposedInterfaces);
+		root.addServlet(servletHolder, uri);
 	}
 	
 	@After

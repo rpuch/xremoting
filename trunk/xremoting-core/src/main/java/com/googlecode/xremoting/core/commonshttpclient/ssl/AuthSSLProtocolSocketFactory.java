@@ -273,7 +273,7 @@ public class AuthSSLProtocolSocketFactory implements SecureProtocolSocketFactory
             if (this.keystoreUrl != null) {
                 KeyStore keystore = createKeyStore(this.keystoreUrl, this.keystorePassword);
                 if (LOG.isDebugEnabled()) {
-                    Enumeration aliases = keystore.aliases();
+                    Enumeration<String> aliases = keystore.aliases();
                     while (aliases.hasMoreElements()) {
                         String alias = (String)aliases.nextElement();                        
                         Certificate[] certs = keystore.getCertificateChain(alias);
@@ -298,7 +298,7 @@ public class AuthSSLProtocolSocketFactory implements SecureProtocolSocketFactory
             if (this.truststoreUrl != null) {
                 KeyStore keystore = createKeyStore(this.truststoreUrl, this.truststorePassword);
                 if (LOG.isDebugEnabled()) {
-                    Enumeration aliases = keystore.aliases();
+                    Enumeration<String> aliases = keystore.aliases();
                     while (aliases.hasMoreElements()) {
                         String alias = (String)aliases.nextElement();
                         LOG.debug("Trusted certificate '" + alias + "':");

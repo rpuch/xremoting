@@ -18,6 +18,7 @@ import com.googlecode.xremoting.core.invoked.InvocationRestriction;
 import com.googlecode.xremoting.core.invoked.Invoker;
 import com.googlecode.xremoting.core.invoked.ProxyInvokingHelper;
 import com.googlecode.xremoting.core.spi.Serializer;
+import com.googlecode.xremoting.core.utils.ClassLoaderUtils;
 import com.googlecode.xremoting.core.xstream.XStreamSerializer;
 
 /**
@@ -72,11 +73,7 @@ public abstract class XRemotingServlet extends HttpServlet {
 	}
 
 	protected ClassLoader getInterfacesClassLoader() {
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		if (classLoader == null) {
-			classLoader = getClass().getClassLoader();
-		}
-		return classLoader;
+		return ClassLoaderUtils.getDefaultClassLoader(getClass());
 	}
 
 	protected Serializer createSerializer() {
