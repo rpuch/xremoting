@@ -10,6 +10,7 @@ import com.googlecode.xremoting.core.http.HttpRequester;
 import com.googlecode.xremoting.core.invoking.XRemotingInvocationHandler;
 import com.googlecode.xremoting.core.spi.Requester;
 import com.googlecode.xremoting.core.spi.Serializer;
+import com.googlecode.xremoting.core.utils.ClassLoaderUtils;
 import com.googlecode.xremoting.core.xstream.XStreamSerializer;
 
 /**
@@ -193,10 +194,6 @@ public class XRemotingProxyFactory {
 	}
 	
 	protected ClassLoader getDefaultClassLoader() {
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		if (classLoader == null) {
-			classLoader = getClass().getClassLoader();
-		}
-		return classLoader;
+		return ClassLoaderUtils.getDefaultClassLoader(getClass());
 	}
 }

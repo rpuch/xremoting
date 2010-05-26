@@ -44,8 +44,9 @@ package com.googlecode.xremoting.core.commonshttpclient.ssl;
  */
 
 public class AuthSSLInitializationError extends Error {
+	private static final long serialVersionUID = -4245213041604232613L;
 
-    /**
+	/**
      * Creates a new AuthSSLInitializationError.
      */
     public AuthSSLInitializationError() {
