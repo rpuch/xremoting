@@ -74,6 +74,9 @@ public class CommonsHttpClientRequest implements Request {
 			os = null;
 		}
 		funnel = null;
+		if (method != null) {
+			method.releaseConnection();
+		}
 	}
 	
 	private void checkNotCommitted() {
