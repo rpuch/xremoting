@@ -25,6 +25,12 @@
 	<bean id="ab_a" class="com.googlecode.xremoting.spring.XRemotingProxyFactoryBean">
 		<property name="serviceUrl" value="http://localhost:8867/ab"/>
 		<property name="serviceInterface" value="com.googlecode.xremoting.core.test.A"/>
+		<property name="requester">
+			<bean class="com.googlecode.xremoting.core.commonshttpclient.CommonsHttpClientRequester">
+				<constructor-arg ref="httpClient"/>
+				<constructor-arg value="http://localhost:8867/ab"/>
+			</bean>
+		</property>
 	</bean>
 	
 	<bean id="ab_b" class="com.googlecode.xremoting.spring.XRemotingProxyFactoryBean">
