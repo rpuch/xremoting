@@ -17,7 +17,7 @@ To use your service via HTTP(s), you have to do the following:
 
 = Dependencies =
 
-Read [Dependencies the following] to know about requirements and dependencies.
+Read [Dependencies the following] to learn about requirements and dependencies.
 
 = Creating business interface and its implementation =
 
