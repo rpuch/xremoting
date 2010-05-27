@@ -6,6 +6,8 @@ import org.apache.commons.httpclient.HttpClient;
 
 import com.googlecode.xremoting.core.commonshttpclient.CommonsHttpClientRequester;
 import com.googlecode.xremoting.core.exception.InitializationException;
+import com.googlecode.xremoting.core.http.DefaultHttpConnectionFactory;
+import com.googlecode.xremoting.core.http.HttpConnectionFactory;
 import com.googlecode.xremoting.core.http.HttpRequester;
 import com.googlecode.xremoting.core.invoking.XRemotingInvocationHandler;
 import com.googlecode.xremoting.core.spi.Requester;
@@ -42,8 +44,18 @@ import com.googlecode.xremoting.core.xstream.XStreamSerializer;
  */
 public class XRemotingProxyFactory {
 	
-	private Serializer serializer;
-	private Requester requester;
+	protected Serializer serializer;
+	protected Requester requester;
+	
+	/**
+	 * Creates a factory with XStream-based serialization and simple HTTP-based
+	 * transport.
+	 * 
+	 * @param url	service URL
+	 */
+	public XRemotingProxyFactory(String url) {
+		init(createDefaultRequester(url), (Serializer) null);
+	}
 
 	/**
 	 * Creates a factory with XStream-based serialization.
@@ -51,7 +63,7 @@ public class XRemotingProxyFactory {
 	 * @param requester		requester to use
 	 */
 	public XRemotingProxyFactory(Requester requester) {
-		this(requester, new XStreamSerializer());
+		init(requester, (Serializer) null);
 	}
 	
 	/**
@@ -124,6 +136,9 @@ public class XRemotingProxyFactory {
 	
 	private void init(Requester requester, Serializer serializer) {
 		this.requester = requester;
+		if (serializer == null) {
+			serializer = createDefaultSerializer();
+		}
 		this.serializer = serializer;
 	}
 	
@@ -196,4 +211,19 @@ public class XRemotingProxyFactory {
 	protected ClassLoader getDefaultClassLoader() {
 		return ClassLoaderUtils.getDefaultClassLoader(getClass());
 	}
+	
+	protected Serializer createDefaultSerializer() {
+		return new XStreamSerializer();
+	}
+	
+	protected Requester createDefaultRequester(String url) {
+		HttpConnectionFactory httpConnectionFactory = createDefaultHttpConnectionFactory();
+		return new HttpRequester(httpConnectionFactory, url);
+	}
+
+	protected HttpConnectionFactory createDefaultHttpConnectionFactory() {
+		HttpConnectionFactory httpConnectionFactory = new DefaultHttpConnectionFactory();
+		return httpConnectionFactory;
+	}
+
 }
