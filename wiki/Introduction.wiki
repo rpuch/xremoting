@@ -1,4 +1,5 @@
 #summary Introduction to remoting using XRemoting
+#labels introduction,remoting,XRemoting
 
 = Introduction =
 
