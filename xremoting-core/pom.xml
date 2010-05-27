@@ -3,11 +3,11 @@
 	<parent>
 		<artifactId>xremoting-parent</artifactId>
 		<groupId>com.googlecode.xremoting</groupId>
-		<version>1.0-1</version>
+		<version>1.0-2-SNAPSHOT</version>
 	</parent>
 	<groupId>com.googlecode.xremoting</groupId>
 	<artifactId>xremoting-core</artifactId>
-	<version>1.0-1</version>
+	<version>1.0-2-SNAPSHOT</version>
 	<name>Simple remoting framework core</name>
 
 	<dependencies>
