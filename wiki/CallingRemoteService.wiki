@@ -35,3 +35,7 @@ For more information on implementing your own Requester, see [Extending]
 You can also override a Serializer. Please note that you should use the same Serializer implementation (or at least compatible ones) on both sides: on your server and on the calling side.
 
 For more information on implementing your own Serializer, see [Extending]
+
+= Alternatives =
+
+See SpringIntegration to get information on how to invoke your service exposed via !XRemoting using Spring Framework.
