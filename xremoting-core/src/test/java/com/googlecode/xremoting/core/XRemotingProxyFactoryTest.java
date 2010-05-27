@@ -108,6 +108,7 @@ public class XRemotingProxyFactoryTest {
 	@Test
 	public void testInstantiation() throws Exception {
 		DummyRequester requester = new DummyRequester();
+		new XRemotingProxyFactory("http://code.google.com");
 		new XRemotingProxyFactory(requester);
 		new XRemotingProxyFactory(requester, XStreamSerializer.class);
 		new XRemotingProxyFactory(requester, new XStreamSerializer());

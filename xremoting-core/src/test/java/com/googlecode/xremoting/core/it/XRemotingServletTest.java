@@ -55,6 +55,14 @@ public class XRemotingServletTest {
 	}
 	
 	@Test
+	public void testInvokeOnSimpleFactory() throws Exception {
+		XRemotingProxyFactory factory = createSimpleProxyFactory("/cool-service");
+		CoolServiceInterface coolService = (CoolServiceInterface) factory.create(CoolServiceInterface.class);
+		String result = coolService.doCoolStuff("abc", 9, -13, new Class<?>[]{CoolService.class, String.class});
+		Assert.assertEquals("abc9-13CoolService", result);
+	}
+	
+	@Test
 	public void testInvokeOnMultipleInterfacesViaCorrectInterface() throws Exception {
 		XRemotingProxyFactory factory = createProxyFactory("/a");
 		A a = (A) factory.create(A.class);
@@ -88,5 +96,9 @@ public class XRemotingServletTest {
 		Requester requester = new HttpRequester(httpConnectionFactory, QAUtils.buildUrl(uri));
 		XRemotingProxyFactory factory = new XRemotingProxyFactory(requester);
 		return factory;
+	}
+	
+	private XRemotingProxyFactory createSimpleProxyFactory(String uri) {
+		return new XRemotingProxyFactory(QAUtils.buildUrl(uri));
 	}
 }
