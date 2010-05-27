@@ -12,3 +12,23 @@ To use your service via HTTP(s), you have to do the following:
    1. Create business interface and its implementation
    1. [ExposingServiceViaHttp Expose] your service interface on the server via HTTP(s)
    1. [CallingRemoteService Use XRemotingProxyFactory] to get proxy for your remote service (on the client)
+
+= Creating business interface and its implementation =
+
+!YourService.java:
+
+{{{
+public interface YourService {
+    String sayHello(String username);
+}
+}}}
+
+!YourServiceImpl.java:
+
+{{{
+public class YourServiceImpl implements YourService {
+    public String sayHello(String username) {
+         return "Hello " + username + "!";
+    }
+}
+}}}
