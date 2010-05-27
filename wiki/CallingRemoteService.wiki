@@ -1,0 +1,36 @@
+#summary Calling remote service
+
+= Calling on the client side =
+
+{{{
+XRemotingProxyFactory factory = new XRemotingProxyFactory("http://yourhost/your-service");
+YourService yourService = (YourService) factory.create(YourService.class);
+System.out.println(yourService.sayHello("Santa Claus"));
+}}}
+
+= More configuration =
+
+Examples shown above are for the basic case which is described as follows:
+
+ * XStream is used as a Serializer (XStreamSerializer)
+ * Default machinery based on URL.openConnection() is used as a transport (implemented by !HttpRequester)
+
+== Requester ==
+
+There's an alternative Requester implementation: !CommonsHttpClientRequester which uses !HttpClient under the covers. You may first intialize the client (including proxy, ssl configuration and other things) and then use that implementation:
+
+{{{
+HttpClient httpClient = new HttpClient();
+// ... configure httpClient ...
+Requester requester = new CommonsHttpClientRequester(httpClient, "http://yourhost/your-service");
+}}}
+
+You can then feed this Requester to !XRemotingProxyFactory constructor.
+
+For more information on implementing your own Requester, see [Extending]
+
+== Serializer ==
+
+You can also override a Serializer. Please note that you should use the same Serializer implementation (or at least compatible ones) on both sides: on your server and on the calling side.
+
+For more information on implementing your own Serializer, see [Extending]
