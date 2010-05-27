@@ -26,7 +26,7 @@ HttpClient httpClient = new HttpClient();
 Requester requester = new CommonsHttpClientRequester(httpClient, "http://yourhost/your-service");
 }}}
 
-You can then feed this Requester to !XRemotingProxyFactory constructor.
+You can then feed this Requester to XRemotingProxyFactory constructor.
 
 There's a helper class called !HttpClientBuilder which is aimed to aid constructing !HttpClient instances.
 
