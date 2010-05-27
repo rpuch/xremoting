@@ -1,0 +1,14 @@
+#summary Introduction to remoting using XRemoting
+
+= Introduction =
+
+Here, service means object which implements some business logic. It must satisfy to some requirements:
+
+    * It must implement a business interface; access will be made through this interface.
+    * Business interface methods must accept arguments and return pretty serializable values. This does not necesserily require your value classes to implement java.io.Serializable (although it would be great), but be serializable by the current Serializer. 
+
+To use your service via HTTP(s), you have to do the following:
+
+   1. Create business interface and its implementation
+   1. [ExposingServiceViaHttp Expose] your service interface on the server via HTTP(s)
+   1. [CallingRemoteService Use XRemotingProxyFactory] to get proxy for your remote service (on the client)
