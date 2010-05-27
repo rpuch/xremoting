@@ -38,3 +38,7 @@ public class YourServiceServlet extends XRemotingServlet {
 }}}
 
 Note init parameter called _exposedInterfaces_. It's needed to restrict what methods may be called on your service remotely so malicious caller will not be allowed to call some public method defined by other interface or by class directly (like lifecycle methods: it would not be good if someone stops your service remotely).
+
+= Alternatives =
+
+See SpringIntegration to get information on how to expose your service via !XRemoting using Spring Framework.
