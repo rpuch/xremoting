@@ -1,4 +1,5 @@
 #summary Calling remote service
+#labels invoke,remote,service
 
 = Calling on the client side =
 
