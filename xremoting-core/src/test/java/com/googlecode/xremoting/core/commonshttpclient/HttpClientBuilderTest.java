@@ -86,4 +86,9 @@ public class HttpClientBuilderTest {
 			}
 		}
 	}
+
+	@Test
+	public void testConfigProxy() throws Exception {
+		HttpClientBuilder.create().proxyHost("code.google.com").build();
+	}
 }
