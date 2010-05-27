@@ -4,7 +4,7 @@
 = Calling on the client side =
 
 {{{
-XRemotingProxyFactory factory = new XRemotingProxyFactory("http://yourhost/your-service");
+XRemotingProxyFactory factory = new XRemotingProxyFactory("http://yourhost.com/your-service");
 YourService yourService = (YourService) factory.create(YourService.class);
 System.out.println(yourService.sayHello("Santa Claus"));
 }}}
