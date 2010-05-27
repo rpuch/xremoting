@@ -3,37 +3,10 @@
 
 = Introduction =
 
-Here, *service* means object which implements some business logic. It must satisfy to some requirements:
+A standard way to expose a service is through a servlet. Here is what you should do:
 
- * It must implement a *business interface*; access will be made through this interface.
- * Business interface methods must accept arguments and return _pretty serializable_ values. This does not necesserily require your value classes to implement java.io.Serializable (although it would be great), but be serializable by the current Serializer.
-
-Standard way to expose a service is through a servlet. Here is what you should do:
-
- 1. Create business interface and its implementation
  1. Write your own servlet which will expose your service to the world via HTTP(s)
  1. Define it in web.xml, bind to a URI (on the server)
- 1. Use XRemotingProxyFactory to get proxy for your remote service (on the client)
-
-= Creating business interface and its implementation =
-
-!YourService.java:
-
-{{{
-public interface YourService {
-    String sayHello(String username);
-}
-}}}
-
-!YourServiceImpl.java:
-
-{{{
-public class YourServiceImpl implements YourService {
-    public String sayHello(String username) {
-         return "Hello " + username + "!";
-    }
-}
-}}}
 
 = Creating an exposing servlet =
 
@@ -65,38 +38,3 @@ public class YourServiceServlet extends XRemotingServlet {
 }}}
 
 Note init parameter called _exposedInterfaces_. It's needed to restrict what methods may be called on your service remotely so malicious caller will not be allowed to call some public method defined by other interface or by class directly (like lifecycle methods: it would not be good if someone stops your service remotely).
-
-= Calling on the client side =
-
-{{{
-XRemotingProxyFactory factory = new XRemotingProxyFactory("http://yourhost/your-service");
-YourService yourService = (YourService) factory.create(YourService.class);
-System.out.println(yourService.sayHello("Santa Claus"));
-}}}
-
-= More configuration =
-
-Examples shown above are for the basic case which is described as follows:
-
- * XStream is used as a Serializer (XStreamSerializer)
- * Default machinery based on URL.openConnection() is used as a transport (implemented by !HttpRequester)
-
-== Requester ==
-
-There's an alternative Requester implementation: !CommonsHttpClientRequester which uses !HttpClient under the covers. You may first intialize the client (including proxy, ssl configuration and other things) and then use that implementation:
-
-{{{
-HttpClient httpClient = new HttpClient();
-// ... configure httpClient ...
-Requester requester = new CommonsHttpClientRequester(httpClient, "http://yourhost/your-service");
-}}}
-
-You can then feed this Requester to !XRemotingProxyFactory constructor.
-
-For more information on implementing your own Requester, see [Extending]
-
-== Serializer ==
-
-You can also override a Serializer. Please note that you should use the same Serializer implementation (or at least compatible ones) on both sides: on your server and on the calling side.
-
-For more information on implementing your own Serializer, see [Extending]
