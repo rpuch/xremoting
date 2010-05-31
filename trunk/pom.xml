@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.googlecode.xremoting</groupId>
 	<artifactId>xremoting-parent</artifactId>
-	<version>1.0-2-SNAPSHOT</version>
+	<version>1.0-2</version>
 	<packaging>pom</packaging>
 	<name>Simple remoting framework</name>
 
@@ -11,9 +11,9 @@
 	</modules>
 	
 	<scm>
-		<connection>scm:svn:https://xremoting.googlecode.com/svn/trunk/</connection>
-		<developerConnection>scm:svn:https://xremoting.googlecode.com/svn/trunk/</developerConnection>
-		<url>http://xremoting.googlecode.com/</url>
+		<connection>scm:svn:https://xremoting.googlecode.com/svn/tags/xremoting-parent-1.0-2</connection>
+		<developerConnection>scm:svn:https://xremoting.googlecode.com/svn/tags/xremoting-parent-1.0-2</developerConnection>
+		<url>http://xremoting.googlecode.com/tags/xremoting-parent-1.0-2</url>
 	</scm>
 	
 	<!--
