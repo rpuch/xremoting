@@ -25,10 +25,15 @@ public class ProxyInvokingHelper {
 			if (input instanceof Invocation) {
 				Invocation invocation = (Invocation) input;
 				try {
-					Object result = invoke(target, invocation, invoker, restriction);
-					sendResult(os, result, serializer);
-				} catch (Throwable e) {
-					sendThrownThrowingOnSerializationError(os, e, serializer);
+					beforeInvocation(target, invocation, invoker, restriction);
+					try {
+						Object result = invoke(target, invocation, invoker, restriction);
+						sendResult(os, result, serializer);
+					} catch (Throwable e) {
+						sendThrownThrowingOnSerializationError(os, e, serializer);
+					}
+				} finally {
+					afterInvocation(target, invocation, invoker, restriction);
 				}
 			} else {
 				sendThrownThrowingOnSerializationError(os,
@@ -39,10 +44,18 @@ public class ProxyInvokingHelper {
 		}
 	}
 	
+	protected void beforeInvocation(Object target, Invocation invocation, Invoker invoker,
+			InvocationRestriction restriction) {
+	}
+	
 	protected Object invoke(Object target, Invocation invocation, Invoker invoker,
 			InvocationRestriction restriction)
 			throws InvokedSideInvocationException, Throwable {
 		return invoker.invoke(target, invocation, restriction);
+	}
+	
+	protected void afterInvocation(Object target, Invocation invocation, Invoker invoker,
+			InvocationRestriction restriction) {
 	}
 	
 	protected void sendResult(OutputStream os, Object result, Serializer serializer) throws SerializationException, IOException {

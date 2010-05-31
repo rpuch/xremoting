@@ -13,6 +13,10 @@ public class Invocation implements Serializable {
 	private String methodName;
 	private Class<? extends Object>[] argTypes;
 	private Object[] args;
+	
+	public Invocation() {
+		super();
+	}
 
 	public Invocation(String methodName, Class<? extends Object>[] argTypes, Object[] args) {
 		super();
