@@ -4,10 +4,11 @@
   <artifactId>xremoting-parent</artifactId>
   <version>1.0-1</version>
   <versioning>
-    <release>1.0-1</release>
+    <release>1.0-2</release>
     <versions>
       <version>1.0-1</version>
+      <version>1.0-2</version>
     </versions>
-    <lastUpdated>20100527083513</lastUpdated>
+    <lastUpdated>20100531091338</lastUpdated>
   </versioning>
 </metadata>
