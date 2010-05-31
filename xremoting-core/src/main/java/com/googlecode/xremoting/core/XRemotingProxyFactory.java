@@ -22,7 +22,7 @@ import com.googlecode.xremoting.core.xstream.XStreamSerializer;
  * <p>
  * Here's an example:
  * <pre>
- * XRemotingProxyFactory factory = new XRemotingProxyFactory("http://yourhost/your-service");
+ * XRemotingProxyFactory factory = new XRemotingProxyFactory("http://yourhost.com/your-service");
  * YourService yourService = (YourService) factory.create(YourService.class);
  * // now call any methods on yourService
  * </pre>
