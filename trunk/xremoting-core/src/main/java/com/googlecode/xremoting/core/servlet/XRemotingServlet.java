@@ -96,7 +96,12 @@ public abstract class XRemotingServlet extends HttpServlet {
 		try {
 			is = request.getInputStream();
 			os = response.getOutputStream();
-			invokingHelper.invoke(getTarget(), is, os, serializer, invoker, restriction);
+			beforeInvocation(request, response);
+			try {
+				invokingHelper.invoke(getTarget(), is, os, serializer, invoker, restriction);
+			} finally {
+				afterInvocation(request, response);
+			}
 		} finally {
 			try {
 				if (is != null) {
@@ -110,6 +115,14 @@ public abstract class XRemotingServlet extends HttpServlet {
 		}
 	}
 	
+	protected void beforeInvocation(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+	}
+
+	protected void afterInvocation(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+	}
+
 	protected abstract Object getTarget();
 
 }

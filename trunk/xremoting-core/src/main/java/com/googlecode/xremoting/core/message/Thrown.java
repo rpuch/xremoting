@@ -11,6 +11,10 @@ public class Thrown implements Serializable {
 	private static final long serialVersionUID = 7653345554991408137L;
 	
 	private Throwable throwable;
+	
+	public Thrown() {
+		super();
+	}
 
 	public Thrown(Throwable throwable) {
 		super();

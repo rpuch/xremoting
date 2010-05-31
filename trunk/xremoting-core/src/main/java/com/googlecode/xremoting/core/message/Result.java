@@ -12,6 +12,10 @@ public class Result implements Serializable {
 	private static final long serialVersionUID = -4441846621215525525L;
 	
 	private Object object;
+	
+	public Result() {
+		super();
+	}
 
 	public Result(Object object) {
 		super();
