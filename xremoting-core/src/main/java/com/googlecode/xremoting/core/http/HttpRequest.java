@@ -27,6 +27,14 @@ public class HttpRequest implements Request {
 	
 	public void commitRequest() throws IOException {
 		connection.getOutputStream().flush();
+		checkStatusCode(connection);
+	}
+	
+	protected void checkStatusCode(HttpURLConnection connection) throws IOException {
+		if (connection.getResponseCode() != 200) {
+			throw new IOException("Wrong status code: 200 expected but got "
+					+ connection.getResponseCode() + " (" + connection.getResponseMessage() + ")");
+		}
 	}
 	
 	public InputStream getInputStream() throws IOException {

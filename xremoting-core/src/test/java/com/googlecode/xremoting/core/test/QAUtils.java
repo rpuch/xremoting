@@ -49,6 +49,19 @@ public class QAUtils {
 		}), "/test-servlet");
 	}
 	
+	public static void addRedirectingServlet(Context root) {
+		root.addServlet(new ServletHolder(new HttpServlet() {
+			private static final long serialVersionUID = 1L;
+			@Override
+			protected void doPost(HttpServletRequest req,
+					HttpServletResponse resp) throws ServletException,
+					IOException {
+				resp.sendRedirect("/some/location");
+			}
+			
+		}), "/redirecting-servlet");
+	}
+	
 	public static void addServiceServlet(Context root, final Object target,
 			String exposedInterfaces, String uri) {
 		XRemotingServlet servlet = new XRemotingServlet() {
