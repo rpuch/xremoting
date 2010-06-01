@@ -48,6 +48,10 @@ public class CommonsHttpClientRequest implements Request {
 		}
 		os = null;
 		httpClient.executeMethod(method);
+		if (method.getStatusCode() != 200) {
+			throw new IOException("Wrong status code: 200 expected but got "
+					+ method.getStatusCode() + " (" + method.getStatusText() + ")");
+		}
 		is = method.getResponseBodyAsStream();
 	}
 

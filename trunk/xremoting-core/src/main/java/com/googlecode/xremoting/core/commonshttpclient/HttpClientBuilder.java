@@ -242,9 +242,8 @@ public class HttpClientBuilder {
 			httpClient.getHostConfiguration().setProxyHost(h);
 		}
 
-		httpClient.getParams().setAuthenticationPreemptive(authenticationPreemprive);
-		
 		if (basicAuthUsername != null) {
+			httpClient.getParams().setAuthenticationPreemptive(authenticationPreemprive);
 			AuthScope authscope = new AuthScope(
 					basicAuthHost == null ? AuthScope.ANY_HOST : basicAuthHost,
 					basicAuthPort == -1 ? AuthScope.ANY_PORT : basicAuthPort);
