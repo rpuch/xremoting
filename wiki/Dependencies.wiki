@@ -31,7 +31,7 @@ Here's an example for project which uses both XStream for serialization and http
     <dependency>
         <groupId>com.googlecode.xremoting</groupId>
         <artifactId>xremoting-core</artifactId>
-        <version>1.0-1</version>
+        <version>1.0-2</version>
     </dependency>
     <dependency>
         <groupId>com.thoughtworks.xstream</groupId>
