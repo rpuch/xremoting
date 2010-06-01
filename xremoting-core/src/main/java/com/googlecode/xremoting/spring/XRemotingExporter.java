@@ -16,6 +16,11 @@ import com.googlecode.xremoting.core.spi.Serializer;
 import com.googlecode.xremoting.core.utils.ClassLoaderUtils;
 import com.googlecode.xremoting.core.xstream.XStreamSerializer;
 
+/**
+ * Exposes XRemoting-based service using some protocol.
+ * 
+ * @author Roman Puchkovskiy
+ */
 public class XRemotingExporter extends RemoteExporter implements
 		InitializingBean {
 	

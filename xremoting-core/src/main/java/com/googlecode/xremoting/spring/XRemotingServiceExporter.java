@@ -8,8 +8,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter;
 import org.springframework.web.HttpRequestHandler;
 
+/**
+ * Service exporter analogous to {@link HttpInvokerServiceExporter} which
+ * exports XRemoting-based service via HTTP(s).
+ * 
+ * @author Roman Puchkovskiy
+ */
 public class XRemotingServiceExporter extends XRemotingExporter implements HttpRequestHandler {
 	
 	public void handleRequest(HttpServletRequest request,
