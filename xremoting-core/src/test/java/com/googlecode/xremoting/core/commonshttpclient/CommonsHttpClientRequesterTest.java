@@ -11,8 +11,6 @@ import org.junit.Test;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.servlet.Context;
 
-import com.googlecode.xremoting.core.http.DefaultHttpConnectionFactory;
-import com.googlecode.xremoting.core.http.HttpConnectionFactory;
 import com.googlecode.xremoting.core.spi.Request;
 import com.googlecode.xremoting.core.spi.Requester;
 import com.googlecode.xremoting.core.test.QAUtils;
@@ -46,7 +44,6 @@ public class CommonsHttpClientRequesterTest {
 		try {
 			server.start();
 			
-			HttpConnectionFactory factory = new DefaultHttpConnectionFactory();
 			Requester requester = new CommonsHttpClientRequester(new HttpClient(), QAUtils.buildUrl("/redirecting-servlet"));
 			Request request = requester.createRequest();
 			request.commitRequest();
