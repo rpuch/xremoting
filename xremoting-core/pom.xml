@@ -8,6 +8,8 @@
 	<groupId>com.googlecode.xremoting</groupId>
 	<artifactId>xremoting-core</artifactId>
 	<name>Simple remoting framework core</name>
+	<packaging>jar</packaging>
+	<description>XRemoting framework core</description>
 
 	<dependencies>
 		<dependency>
