@@ -5,16 +5,44 @@
 	<version>1.0-4-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Simple remoting framework</name>
+	<description>Simple yet extensible remoting framework</description>
+
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>3</version>
+	</parent>
 
 	<modules>
 		<module>xremoting-core</module>
 	</modules>
+	
+	<url>http://code.google.com/p/xremoting/</url>
 	
 	<scm>
 		<connection>scm:svn:https://xremoting.googlecode.com/svn/trunk/</connection>
 		<developerConnection>scm:svn:https://xremoting.googlecode.com/svn/trunk/</developerConnection>
 		<url>http://xremoting.googlecode.com/</url>
 	</scm>
+	
+	<licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+	</licenses>
+		
+	<developers>
+		<developer>
+			<id>roman.puchkovskiy</id>
+			<email>roman.puchkovskiy@gmail.com</email>
+			<name>Roman Puchkovskiy</name>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
 	
 	<!--
     -      Distributions
