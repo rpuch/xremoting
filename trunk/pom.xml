@@ -48,20 +48,17 @@
     -      Distributions
     -->
 	<distributionManagement>
-		<repository>
-			<id>xremoting-release</id>
-			<name>Local Maven repository of releases</name>
-		    <!-- 
-		        Use https://xremoting.googlecode.com/svn/maven2/release to include xremoting repository
-		    -->
-            <url>file:///${HOME}/svn/xremoting-maven2-release</url>
-		</repository>
-		<snapshotRepository>
-			<id>xremoting-snapshot</id>
-			<name>Local Maven repository of snapshots</name>
-			<url>file:///${HOME}/svn/xremoting-maven2-snapshot</url>
-			<uniqueVersion>false</uniqueVersion>
-		</snapshotRepository>		
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>sonatype oss RELEASE repository</name>
+            <url>http://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>sonatype oss SNAPSHOT repository</name>
+            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
 	</distributionManagement>
 
 	<dependencyManagement>
