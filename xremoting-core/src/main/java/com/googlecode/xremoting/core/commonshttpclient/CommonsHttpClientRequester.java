@@ -35,7 +35,12 @@ public class CommonsHttpClientRequester implements Requester {
 	@Override
 	public Request createRequest() throws IOException {
 		PostMethod method = new PostMethod(url);
+		configureMethod(method);
 		return new CommonsHttpClientRequest(httpClient, method);
+	}
+
+	protected void configureMethod(PostMethod method) {
+		method.setRequestHeader("Content-Type", "application/xml");
 	}
 
 }

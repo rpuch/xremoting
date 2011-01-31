@@ -42,6 +42,7 @@ public class QAUtils {
 					IOException {
 				String line = req.getReader().readLine();
 				Assert.assertEquals("Hello server!", line);
+				Assert.assertEquals("application/xml", req.getHeader("Content-Type"));
 				resp.getWriter().write("Hello client!");
 				resp.getWriter().close();
 			}
