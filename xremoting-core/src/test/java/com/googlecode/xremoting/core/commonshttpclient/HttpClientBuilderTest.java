@@ -91,4 +91,12 @@ public class HttpClientBuilderTest {
 	public void testConfigProxy() throws Exception {
 		HttpClientBuilder.create().proxyHost("code.google.com").build();
 	}
+
+    @Test
+    public void testTimeouts() {
+        HttpClient client = HttpClientBuilder.create().timeouts(10001, 20001, 30001).build();
+        Assert.assertEquals(10001, client.getHttpConnectionManager().getParams().getConnectionTimeout());
+        Assert.assertEquals(20001, client.getParams().getSoTimeout());
+        Assert.assertEquals(30001, client.getParams().getConnectionManagerTimeout());
+    }
 }

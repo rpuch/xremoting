@@ -35,6 +35,10 @@ public class HttpClientBuilder {
 	private Map<String, SslHostConfig> sslHostConfigs = new HashMap<String, SslHostConfig>();
 	private String secureHost;
 	private SslHostConfig sslHostConfig;
+
+    private int connectionTimeout = 10000;          // 10 seconds
+    private int soTimeout = 10000;                  // 10 seconds
+    private long connectionManagerTimeout = 10000;  // 10 seconds
 	
 	/**
 	 * Creates a new builder.
@@ -131,7 +135,8 @@ public class HttpClientBuilder {
 	/**
 	 * Begins SSL configuration <em>for the given host</em>. Actual
 	 * configuration must follow (see {@link #trustKeyStore(URL, String)},
-	 * {@link #keyStore(URL, String)}, {@link #secure(String, int)}).
+	 * {@link #keyStore(URL, String)}, {@link #secureSchema(String)},
+     * {@link #securePort(int)}).
 	 * Allows to enable both server validation (by supplying keyStore) and
 	 * client authentication (by supplying trustKeyStore).
 	 * 
@@ -224,6 +229,24 @@ public class HttpClientBuilder {
 		return this;
 	}
 
+    /**
+     * Configures timeouts of the HttpClient being built.
+     *
+     * @param connectionTimeout         time in millis for connection to
+     *                                  be established
+     * @param soTimeout                 SO timeout (millis)
+     * @param connectionManagerTimeout  time in millis for connection to
+     *                                  be obtained from connection manager
+     * @return this
+     */
+    public HttpClientBuilder timeouts(int connectionTimeout, int soTimeout,
+            long connectionManagerTimeout) {
+        this.connectionTimeout = connectionTimeout;
+        this.soTimeout = soTimeout;
+        this.connectionManagerTimeout = connectionManagerTimeout;
+        return this;
+    }
+
 	/**
 	 * Builds the configured HttpClient.
 	 * 
@@ -264,6 +287,10 @@ public class HttpClientBuilder {
 			Protocol protocol = createProtocol(factory, config);
 			httpClient.getHostConfiguration().setHost(host, config.securePort, protocol);
 		}
+
+        httpClient.getParams().setSoTimeout(soTimeout);
+        httpClient.getParams().setConnectionManagerTimeout(connectionManagerTimeout);
+        httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(connectionTimeout);
 		
 		return httpClient;
 	}
@@ -271,8 +298,8 @@ public class HttpClientBuilder {
 	private Protocol createProtocol(ProtocolSocketFactory factory, SslHostConfig config) {
 		return new Protocol(config.secureSchema, factory, config.securePort);
 	}
-	
-	private static class SslHostConfig {
+
+    private static class SslHostConfig {
 		public URL trustKeyStoreUrl;
 		public URL keyStoreUrl;
 		public String trustKeyStorePassword;

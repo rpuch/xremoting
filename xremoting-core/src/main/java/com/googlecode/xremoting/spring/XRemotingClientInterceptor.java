@@ -59,6 +59,10 @@ public class XRemotingClientInterceptor extends UrlBasedRemoteAccessor
 	private String keyStorePassword;
 	private String sslHost;
 	private int sslPort = 443;
+
+    private int connectionTimeout = 10000;
+    private int soTimeout = 10000;
+    private long connectionManagerTimeout = 10000;
 	
 	private Object xremotingProxy;
 	
@@ -264,7 +268,35 @@ public class XRemotingClientInterceptor extends UrlBasedRemoteAccessor
 		this.sslPort = sslPort;
 	}
 
-	protected final ClassLoader getBeanClassLoader() {
+    /**
+     * Sets connection timeout (in millis).
+     *
+     * @param connectionTimeout connection timeout (millis)
+     */
+    public void setConnectionTimeout(int connectionTimeout) {
+        this.connectionTimeout = connectionTimeout;
+    }
+
+    /**
+     * Sets SO timeout (in millis).
+     *
+     * @param soTimeout SO timeout (millis)
+     */
+    public void setSoTimeout(int soTimeout) {
+        this.soTimeout = soTimeout;
+    }
+
+    /**
+     * Sets maximum time to wait for connection to be obtained from
+     * a connection manager (in millis).
+     *
+     * @param connectionManagerTimeout  connection manager timeout (millis)
+     */
+    public void setConnectionManagerTimeout(long connectionManagerTimeout) {
+        this.connectionManagerTimeout = connectionManagerTimeout;
+    }
+
+    protected final ClassLoader getBeanClassLoader() {
 		return this.beanClassLoader;
 	}
 
@@ -324,8 +356,7 @@ public class XRemotingClientInterceptor extends UrlBasedRemoteAccessor
 
 	protected HttpClient createHttpClient() throws IOException {
 		HttpClientBuilder builder = createAndConfigureHttpClientBuilder();
-		HttpClient httpClient = builder.build();
-		return httpClient;
+        return builder.build();
 	}
 
 	protected HttpClientBuilder createAndConfigureHttpClientBuilder()
@@ -376,6 +407,9 @@ public class XRemotingClientInterceptor extends UrlBasedRemoteAccessor
 			builder.keyStore(keystoreUrl, keyStorePassword);
 			builder.securePort(sslPort);
 		}
+
+        builder.timeouts(connectionTimeout, soTimeout, connectionManagerTimeout);
+
 		return builder;
 	}
 
