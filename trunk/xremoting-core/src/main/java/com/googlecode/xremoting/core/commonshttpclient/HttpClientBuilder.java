@@ -36,6 +36,8 @@ public class HttpClientBuilder {
 	private String secureHost;
 	private SslHostConfig sslHostConfig;
 
+    private String[] sslEnabledProtocols = null;
+
     private int connectionTimeout = 10000;          // 10 seconds
     private int soTimeout = 10000;                  // 10 seconds
     private long connectionManagerTimeout = 10000;  // 10 seconds
@@ -155,6 +157,23 @@ public class HttpClientBuilder {
 		sslHostConfig = new SslHostConfig();
 		return this;
 	}
+
+    /**
+     * Sets a list of enabled SSL protocols. No other protocol
+     * will not be used.
+     *
+     * @param protocols protocols
+     * @return this
+     */
+    public HttpClientBuilder sslEnabledProtocols(String[] protocols) {
+        if (protocols == null) {
+            sslEnabledProtocols = null;
+        } else {
+            sslEnabledProtocols = new String[protocols.length];
+            System.arraycopy(protocols, 0, sslEnabledProtocols, 0, protocols.length);
+        }
+        return this;
+    }
 
 	/**
 	 * Configures a trust store for the current SSL host (see
@@ -281,9 +300,12 @@ public class HttpClientBuilder {
 		for (Entry<String, SslHostConfig> entry : sslHostConfigs.entrySet()) {
 			String host = entry.getKey();
 			SslHostConfig config = entry.getValue();
-			ProtocolSocketFactory factory = new AuthSSLProtocolSocketFactory(
+            AuthSSLProtocolSocketFactory factory = new AuthSSLProtocolSocketFactory(
 					config.keyStoreUrl, config.keyStorePassword,
 					config.trustKeyStoreUrl, config.trustKeyStorePassword);
+            if (sslEnabledProtocols != null) {
+                factory.setEnabledProtocols(sslEnabledProtocols);
+            }
 			Protocol protocol = createProtocol(factory, config);
 			httpClient.getHostConfiguration().setHost(host, config.securePort, protocol);
 		}
