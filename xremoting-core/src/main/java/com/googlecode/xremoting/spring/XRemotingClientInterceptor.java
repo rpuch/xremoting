@@ -59,6 +59,7 @@ public class XRemotingClientInterceptor extends UrlBasedRemoteAccessor
 	private String keyStorePassword;
 	private String sslHost;
 	private int sslPort = 443;
+    private String[] sslEnabledProtocols = null;
 
     private int connectionTimeout = 10000;
     private int soTimeout = 10000;
@@ -269,6 +270,16 @@ public class XRemotingClientInterceptor extends UrlBasedRemoteAccessor
 	}
 
     /**
+     * Sets a list of enabled SSL protocols. No other protocol
+     * will not be used.
+     *
+     * @param sslEnabledProtocols   protocols
+     */
+    public void setSslEnabledProtocols(String[] sslEnabledProtocols) {
+        this.sslEnabledProtocols = sslEnabledProtocols;
+    }
+
+    /**
      * Sets connection timeout (in millis).
      *
      * @param connectionTimeout connection timeout (millis)
@@ -406,6 +417,7 @@ public class XRemotingClientInterceptor extends UrlBasedRemoteAccessor
 			builder.trustKeyStore(truststoreUrl, trustKeyStorePassword);
 			builder.keyStore(keystoreUrl, keyStorePassword);
 			builder.securePort(sslPort);
+            builder.sslEnabledProtocols(sslEnabledProtocols);
 		}
 
         builder.timeouts(connectionTimeout, soTimeout, connectionManagerTimeout);
