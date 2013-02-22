@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<bean id="coolService" class="com.googlecode.xremoting.core.test.CoolService"/>
+
+	<bean id="xremotingExporter" class="com.googlecode.xremoting.spring.XRemotingServiceExporter">
+		<property name="serviceInterface" value="com.googlecode.xremoting.core.test.CoolServiceInterface"/>
+		<property name="service" ref="coolService"/>
+	</bean>
+
+</beans>
