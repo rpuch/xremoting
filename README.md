@@ -54,10 +54,10 @@ YourService yourService = (YourService) factory.create(YourService.class);
 ## Documentation ##
 
 You may wish to look at the following pages:
-  * [Introduction](Introduction.md)
-  * [Dependencies](Dependencies.md)
-  * [Exposing a service via HTTP(s)](ExposingServiceViaHttp.md)
-  * [Calling a remote service](CallingRemoteService.md)
-  * [Spring integration](SpringIntegration.md)
-  * [Extending](Extending.md)
-  * [Developing](Developing.md)
+  * [Introduction](wiki/Introduction.md)
+  * [Dependencies](wiki/Dependencies.md)
+  * [Exposing a service via HTTP(s)](wiki/ExposingServiceViaHttp.md)
+  * [Calling a remote service](wiki/CallingRemoteService.md)
+  * [Spring integration](wiki/SpringIntegration.md)
+  * [Extending](wiki/Extending.md)
+  * [Developing](wiki/Developing.md)
