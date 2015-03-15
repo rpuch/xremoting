@@ -54,7 +54,7 @@ YourService yourService = (YourService) factory.create(YourService.class);
 ## Documentation ##
 
 You may wish to look at the following pages:
-  * [Introduction](wiki/Introduction.md)
+  * [Introduction](/wiki/Introduction.md)
   * [Dependencies](wiki/Dependencies.md)
   * [Exposing a service via HTTP(s)](wiki/ExposingServiceViaHttp.md)
   * [Calling a remote service](wiki/CallingRemoteService.md)
