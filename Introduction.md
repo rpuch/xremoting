@@ -1,0 +1,37 @@
+# Introduction #
+
+Here, service means object which implements some business logic. It must satisfy to some requirements:
+
+  * It must implement a business interface; access will be made through this interface.
+  * Business interface methods must accept arguments and return pretty serializable values. This does not necesserily require your value classes to implement java.io.Serializable (although it would be great), but be serializable by the current Serializer.
+
+To use your service via HTTP(s), you have to do the following:
+
+  1. Add needed libraries to classpath
+  1. Create business interface and its implementation
+  1. [Expose](ExposingServiceViaHttp.md) your service interface on the server via HTTP(s)
+  1. [Use XRemotingProxyFactory](CallingRemoteService.md) to get proxy for your remote service (on the client)
+
+# Dependencies #
+
+Read [the following](Dependencies.md) to learn about requirements and dependencies.
+
+# Creating business interface and its implementation #
+
+YourService.java:
+
+```
+public interface YourService {
+    String sayHello(String username);
+}
+```
+
+YourServiceImpl.java:
+
+```
+public class YourServiceImpl implements YourService {
+    public String sayHello(String username) {
+         return "Hello " + username + "!";
+    }
+}
+```

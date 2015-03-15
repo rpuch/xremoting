@@ -1,0 +1,41 @@
+# Introduction #
+
+A standard way to expose a service is through a servlet. Here is what you should do:
+
+  1. Write your own servlet which will expose your service to the world via HTTP(s)
+  1. Define it in web.xml, bind to a URI (on the server)
+
+# Creating an exposing servlet #
+
+```
+public class YourServiceServlet extends XRemotingServlet {
+    private YouService yourService = new YourServiceImpl();
+    // or obtain service instance from some IoC container, or whatever
+    protected Object getTarget() {
+        return yourService;
+    }
+}
+```
+
+# Defining an exposing servlet in web.xml #
+
+```
+<servlet>
+    <servlet-name>yourServiceServlet</servlet-name>
+    <servlet-class>com.yourpackage.YourServiceServlet</servlet-class>
+    <init-param>
+        <param-name>exposedInterfaces</param-name>
+        <param-value>com.yourpackage.YourService</param-value>
+    </init-param>
+</servlet>
+<servlet-mapping>
+    <servlet-name>yourServiceServlet</servlet-name>
+    <url-pattern>/your-service</url-pattern>
+</servlet-mapping>
+```
+
+Note init parameter called _exposedInterfaces_. It's needed to restrict what methods may be called on your service remotely so malicious caller will not be allowed to call some public method defined by other interface or by class directly (like lifecycle methods: it would not be good if someone stops your service remotely).
+
+# Alternatives #
+
+See SpringIntegration to get information on how to expose your service via !XRemoting using Spring Framework.
