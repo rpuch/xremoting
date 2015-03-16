@@ -17,12 +17,12 @@
 		<module>xremoting-core</module>
 	</modules>
 	
-	<url>http://code.google.com/p/xremoting/</url>
+	<url>https://github.com/rpuch/xremoting/</url>
 	
 	<scm>
-		<connection>scm:svn:https://xremoting.googlecode.com/svn/trunk/</connection>
-		<developerConnection>scm:svn:https://xremoting.googlecode.com/svn/trunk/</developerConnection>
-		<url>http://xremoting.googlecode.com/</url>
+		<connection>scm:git:git@github.com:rpuch/xremoting.git</connection>
+		<developerConnection>scm:git:git@github.com:rpuch/xremoting.git</developerConnection>
+		<url>git@github.com:rpuch/xremoting.git</url>
 	</scm>
 	
 	<licenses>
