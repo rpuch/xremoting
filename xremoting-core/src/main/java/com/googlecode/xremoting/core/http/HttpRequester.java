@@ -13,7 +13,7 @@ import com.googlecode.xremoting.core.spi.Requester;
  * 
  * @author Roman Puchkovskiy
  * @see HttpConnectionFactory
- * @See {@link DefaultHttpConnectionFactory}
+ * @see DefaultHttpConnectionFactory
  */
 public class HttpRequester implements Requester {
 	

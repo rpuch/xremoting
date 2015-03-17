@@ -18,7 +18,6 @@ import com.googlecode.xremoting.core.xstream.XStreamSerializer;
 /**
  * <p>
  * Factory for proxy instances through which remote calls may be made.
- * </p>
  * <p>
  * Here's an example:
  * <pre>
@@ -26,20 +25,17 @@ import com.googlecode.xremoting.core.xstream.XStreamSerializer;
  * YourService yourService = (YourService) factory.create(YourService.class);
  * // now call any methods on yourService
  * </pre>
- * </p>
  * <p>
  * There're basically two things you can parameterize: {@link Requester} and
  * {@link Serializer}. For a Serializer, XStream-based serialization is the
  * default. For Requester, the simplest implementation is {@link HttpRequester}
  * which allows to invoke service exposed via HTTP (it is the default option
  * for the simplest constructor {@link #XRemotingProxyFactory(String)}).
- * </p>
  * <p>
  * If you need some of more sophisticated features of HTTP (like SSL or
  * authentication), you may consider {@link CommonsHttpClientRequester} which
  * gives access to the full power of {@link HttpClient}.
- * </p>
- * 
+ *
  * @author Roman Puchkovskiy
  * @see Serializer
  * @see Requester

@@ -7,7 +7,6 @@ import java.io.OutputStream;
 /**
  * <p>
  * Represents a single request/response pair.
- * </p>
  * <p>
  * The contract mandates the following order of invocation of methods:
  * <ol>
@@ -17,11 +16,9 @@ import java.io.OutputStream;
  * <li>releaseRequest()</li>
  * </ol>
  * Each of these methods is to be called maximum once.
- * </p>
  * <p>
  * releaseRequest() method MUST be called anyway, even if error occurred.
- * </p>
- * 
+ *
  * @author Roman Puchkovskiy
  * @see Requester
  */
