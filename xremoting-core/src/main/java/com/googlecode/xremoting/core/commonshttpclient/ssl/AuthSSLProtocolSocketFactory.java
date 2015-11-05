@@ -30,6 +30,21 @@
 
 package com.googlecode.xremoting.core.commonshttpclient.ssl;
 
+import org.apache.commons.httpclient.ConnectTimeoutException;
+import org.apache.commons.httpclient.params.HttpConnectionParams;
+import org.apache.commons.httpclient.protocol.SecureProtocolSocketFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import javax.net.SocketFactory;
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509KeyManager;
+import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
@@ -48,85 +63,87 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Enumeration;
 
-import org.apache.commons.httpclient.ConnectTimeoutException;
-import org.apache.commons.httpclient.params.HttpConnectionParams;
-import org.apache.commons.httpclient.protocol.SecureProtocolSocketFactory;
-import org.apache.commons.logging.Log; 
-import org.apache.commons.logging.LogFactory;
-
-import javax.net.SocketFactory;
-import javax.net.ssl.*;
-
 /**
  * <p>
- * AuthSSLProtocolSocketFactory can be used to validate the identity of the HTTPS 
- * server against a list of trusted certificates and to authenticate to the HTTPS 
- * server using a private key. 
+ * AuthSSLProtocolSocketFactory can be used to validate the identity of the HTTPS
+ * server against a list of trusted certificates and to authenticate to the HTTPS
+ * server using a private key.
+ * </p>
  *
  * <p>
  * AuthSSLProtocolSocketFactory will enable server authentication when supplied with
- * a {@link KeyStore truststore} file containg one or several trusted certificates. 
- * The client secure socket will reject the connection during the SSL session handshake 
- * if the target HTTPS server attempts to authenticate itself with a non-trusted 
+ * a {@link KeyStore truststore} file containg one or several trusted certificates.
+ * The client secure socket will reject the connection during the SSL session handshake
+ * if the target HTTPS server attempts to authenticate itself with a non-trusted
  * certificate.
+ * </p>
  *
  * <p>
- * Use JDK keytool utility to import a trusted certificate and generate a truststore file:    
+ * Use JDK keytool utility to import a trusted certificate and generate a truststore file:
  *    <pre>
  *     keytool -import -alias "my server cert" -file server.crt -keystore my.truststore
  *    </pre>
+ * </p>
  *
  * <p>
  * AuthSSLProtocolSocketFactory will enable client authentication when supplied with
- * a {@link KeyStore keystore} file containg a private key/public certificate pair. 
- * The client secure socket will use the private key to authenticate itself to the target 
- * HTTPS server during the SSL session handshake if requested to do so by the server. 
+ * a {@link KeyStore keystore} file containg a private key/public certificate pair.
+ * The client secure socket will use the private key to authenticate itself to the target
+ * HTTPS server during the SSL session handshake if requested to do so by the server.
  * The target HTTPS server will in its turn verify the certificate presented by the client
  * in order to establish client's authenticity
+ * </p>
  *
  * <p>
  * Use the following sequence of actions to generate a keystore file
+ * </p>
  *   <ul>
  *     <li>
  *      <p>
  *      Use JDK keytool utility to generate a new key
  *      <pre>keytool -genkey -v -alias "my client key" -validity 365 -keystore my.keystore</pre>
  *      For simplicity use the same password for the key as that of the keystore
+ *      </p>
  *     </li>
  *     <li>
  *      <p>
  *      Issue a certificate signing request (CSR)
  *      <pre>keytool -certreq -alias "my client key" -file mycertreq.csr -keystore my.keystore</pre>
+ *     </p>
  *     </li>
  *     <li>
  *      <p>
- *      Send the certificate request to the trusted Certificate Authority for signature. 
- *      One may choose to act as her own CA and sign the certificate request using a PKI 
+ *      Send the certificate request to the trusted Certificate Authority for signature.
+ *      One may choose to act as her own CA and sign the certificate request using a PKI
  *      tool, such as OpenSSL.
+ *      </p>
  *     </li>
  *     <li>
  *      <p>
  *       Import the trusted CA root certificate
- *       <pre>keytool -import -alias "my trusted ca" -file caroot.crt -keystore my.keystore</pre> 
+ *       <pre>keytool -import -alias "my trusted ca" -file caroot.crt -keystore my.keystore</pre>
+ *      </p>
  *     </li>
  *     <li>
  *      <p>
  *       Import the PKCS#7 file containg the complete certificate chain
- *       <pre>keytool -import -alias "my client key" -file mycert.p7 -keystore my.keystore</pre> 
+ *       <pre>keytool -import -alias "my client key" -file mycert.p7 -keystore my.keystore</pre>
+ *      </p>
  *     </li>
  *     <li>
  *      <p>
  *       Verify the content the resultant keystore file
- *       <pre>keytool -list -v -keystore my.keystore</pre> 
+ *       <pre>keytool -list -v -keystore my.keystore</pre>
+ *      </p>
  *     </li>
  *   </ul>
  * <p>
  * Example of using custom protocol socket factory for a specific host:
  *     <pre>
- *     Protocol authhttps = new Protocol("https",  
+ *     Protocol authhttps = new Protocol("https",
  *          new AuthSSLProtocolSocketFactory(
  *              new URL("file:my.keystore"), "mypassword",
- *              new URL("file:my.truststore"), "mypassword"), 443); 
+ *              new URL("file:my.truststore"), "mypassword"), 443);
  *
  *     HttpClient client = new HttpClient();
  *     client.getHostConfiguration().setHost("localhost", 443, authhttps);
@@ -134,25 +151,28 @@ import javax.net.ssl.*;
  *     GetMethod httpget = new GetMethod("/");
  *     client.executeMethod(httpget);
  *     </pre>
+ * </p>
  * <p>
  * Example of using custom protocol socket factory per default instead of the standard one:
  *     <pre>
- *     Protocol authhttps = new Protocol("https",  
+ *     Protocol authhttps = new Protocol("https",
  *          new AuthSSLProtocolSocketFactory(
  *              new URL("file:my.keystore"), "mypassword",
- *              new URL("file:my.truststore"), "mypassword"), 443); 
+ *              new URL("file:my.truststore"), "mypassword"), 443);
  *     Protocol.registerProtocol("https", authhttps);
  *
  *     HttpClient client = new HttpClient();
  *     GetMethod httpget = new GetMethod("https://localhost/");
  *     client.executeMethod(httpget);
  *     </pre>
- * @author Oleg Kalnichevski
- * 
+ * </p>
+ * @author <a href="mailto:oleg -at- ural.ru">Oleg Kalnichevski</a>
+ *
  * <p>
  * DISCLAIMER: HttpClient developers DO NOT actively support this component.
  * The component is provided as a reference material, which may be inappropriate
  * for use without additional customization.
+ * </p>
  */
 
 public class AuthSSLProtocolSocketFactory implements SecureProtocolSocketFactory {
@@ -171,7 +191,7 @@ public class AuthSSLProtocolSocketFactory implements SecureProtocolSocketFactory
     /**
      * Constructor for AuthSSLProtocolSocketFactory. Either a keystore or truststore file
      * must be given. Otherwise SSL context initialization error will result.
-     * 
+     *
      * @param keystoreUrl URL of the keystore file. May be <tt>null</tt> if HTTPS client
      *        authentication is not to be used.
      * @param keystorePassword Password to unlock the keystore. IMPORTANT: this implementation
@@ -181,7 +201,7 @@ public class AuthSSLProtocolSocketFactory implements SecureProtocolSocketFactory
      * @param truststorePassword Password to unlock the truststore.
      */
     public AuthSSLProtocolSocketFactory(
-        final URL keystoreUrl, final String keystorePassword, 
+        final URL keystoreUrl, final String keystorePassword,
         final URL truststoreUrl, final String truststorePassword)
     {
         super();
@@ -210,16 +230,16 @@ public class AuthSSLProtocolSocketFactory implements SecureProtocolSocketFactory
         KeyStore keystore  = KeyStore.getInstance("jks");
         InputStream is = null;
         try {
-        	is = url.openStream(); 
+        	is = url.openStream();
             keystore.load(is, password != null ? password.toCharArray(): null);
         } finally {
         	if (is != null) is.close();
         }
         return keystore;
     }
-    
+
     private static KeyManager[] createKeyManagers(final KeyStore keystore, final String password)
-        throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException 
+        throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException
     {
         if (keystore == null) {
             throw new IllegalArgumentException("Keystore may not be null");
@@ -234,12 +254,12 @@ public class AuthSSLProtocolSocketFactory implements SecureProtocolSocketFactory
         		keymanagers[i] = new AuthSSLX509KeyManager((X509KeyManager) keymanagers[i]);
         	}
         }
-        return keymanagers; 
+        return keymanagers;
     }
 
     private static TrustManager[] createTrustManagers(final KeyStore keystore)
         throws KeyStoreException, NoSuchAlgorithmException
-    { 
+    {
         if (keystore == null) {
             throw new IllegalArgumentException("Keystore may not be null");
         }
@@ -251,10 +271,10 @@ public class AuthSSLProtocolSocketFactory implements SecureProtocolSocketFactory
         for (int i = 0; i < trustmanagers.length; i++) {
             if (trustmanagers[i] instanceof X509TrustManager) {
                 trustmanagers[i] = new AuthSSLX509TrustManager(
-                    (X509TrustManager)trustmanagers[i]); 
+                    (X509TrustManager)trustmanagers[i]);
             }
         }
-        return trustmanagers; 
+        return trustmanagers;
     }
 
     private SSLContext createSSLContext() {
@@ -264,9 +284,9 @@ public class AuthSSLProtocolSocketFactory implements SecureProtocolSocketFactory
             if (this.keystoreUrl != null) {
                 KeyStore keystore = createKeyStore(this.keystoreUrl, this.keystorePassword);
                 if (LOG.isDebugEnabled()) {
-                    Enumeration<String> aliases = keystore.aliases();
+                    Enumeration aliases = keystore.aliases();
                     while (aliases.hasMoreElements()) {
-                        String alias = (String)aliases.nextElement();                        
+                        String alias = (String)aliases.nextElement();
                         Certificate[] certs = keystore.getCertificateChain(alias);
                         if (certs != null) {
                             LOG.debug("Certificate chain '" + alias + "':");
@@ -289,7 +309,7 @@ public class AuthSSLProtocolSocketFactory implements SecureProtocolSocketFactory
             if (this.truststoreUrl != null) {
                 KeyStore keystore = createKeyStore(this.truststoreUrl, this.truststorePassword);
                 if (LOG.isDebugEnabled()) {
-                    Enumeration<String> aliases = keystore.aliases();
+                    Enumeration aliases = keystore.aliases();
                     while (aliases.hasMoreElements()) {
                         String alias = (String)aliases.nextElement();
                         LOG.debug("Trusted certificate '" + alias + "':");
@@ -334,10 +354,11 @@ public class AuthSSLProtocolSocketFactory implements SecureProtocolSocketFactory
     /**
      * Attempts to get a new socket connection to the given host within the given time limit.
      * <p>
-     * To circumvent the limitations of older JREs that do not support connect timeout a 
-     * controller thread is executed. The controller thread attempts to create a new socket 
-     * within the given limit of time. If socket constructor does not return until the 
+     * To circumvent the limitations of older JREs that do not support connect timeout a
+     * controller thread is executed. The controller thread attempts to create a new socket
+     * within the given limit of time. If socket constructor does not return until the
      * timeout expires, the controller terminates and throws an {@link ConnectTimeoutException}
+     * </p>
      *
      * @param host the host name/IP
      * @param port the port on the host
@@ -372,6 +393,13 @@ public class AuthSSLProtocolSocketFactory implements SecureProtocolSocketFactory
             doPreConnectSocketStuff(socket);
             SocketAddress localaddr = new InetSocketAddress(localAddress, localPort);
             SocketAddress remoteaddr = new InetSocketAddress(host, port);
+
+            if (timeout > 0 && socket.getSoTimeout() == 0) {
+                // force SO timeout if not set so we don't freeze forever
+                // during a handshake
+                socket.setSoTimeout(timeout);
+            }
+
             socket.bind(localaddr);
             socket.connect(remoteaddr, timeout);
             return socket;
