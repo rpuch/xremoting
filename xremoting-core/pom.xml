@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>xremoting-parent</artifactId>
 		<groupId>com.googlecode.xremoting</groupId>
-		<version>1.0-9</version>
+		<version>1.0-9-SNAPSHOT</version>
 	</parent>
 	<groupId>com.googlecode.xremoting</groupId>
 	<artifactId>xremoting-core</artifactId>
