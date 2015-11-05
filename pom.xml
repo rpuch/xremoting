@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.googlecode.xremoting</groupId>
     <artifactId>xremoting-parent</artifactId>
-    <version>1.0-9</version>
+    <version>1.0-10-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Simple remoting framework</name>
     <description>Simple yet extensible remoting framework</description>
