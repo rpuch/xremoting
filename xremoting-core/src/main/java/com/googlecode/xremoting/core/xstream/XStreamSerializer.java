@@ -26,24 +26,32 @@ import com.thoughtworks.xstream.io.StreamException;
  * <p>
  * This is the default XRemoting serializer.
  * </p>
- * 
+ *
  * @author Roman Puchkovskiy
  */
 public class XStreamSerializer implements Serializer {
-	
-	protected XStream xstream;
-	
+
+	protected final XStream xstream;
+
 	public XStreamSerializer() {
-		super();
 		xstream = createXStream();
 	}
-	
+
 	protected XStream createXStream() {
 		XStream xs = new XStream();
+
+		configureAllowedClasses(xs);
+
 		xs.alias("invocation", Invocation.class);
 		xs.alias("result", Result.class);
 		xs.alias("thrown", Thrown.class);
+
 		return xs;
+	}
+
+	protected void configureAllowedClasses(XStream xs) {
+		// TODO: switch to secure by default
+		xs.allowTypeHierarchy(Object.class);
 	}
 
 	public void serialize(Object object, OutputStream os) throws SerializationException, IOException {
@@ -64,15 +72,15 @@ public class XStreamSerializer implements Serializer {
 			throw new SerializationException(e);
 		}
 	}
-	
+
 	protected Writer createWriter(OutputStream os) throws UnsupportedEncodingException {
 		return new OutputStreamWriter(os, getDefaultCharset());
 	}
-	
+
 	protected Reader createReader(InputStream is) throws UnsupportedEncodingException {
 		return new InputStreamReader(is, getDefaultCharset());
 	}
-	
+
 	protected String getDefaultCharset() {
 		return "utf-8";
 	}
